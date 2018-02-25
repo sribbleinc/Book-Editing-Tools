@@ -6,26 +6,7 @@ try:
 except ImportError:
     print("This script can only be run inside Scribus.")
 
-############################
-##    SCRIPT ARGUMENTS    ##
-############################
-AUTHOR='Alana Tran' # Creator(s) of document's contents.
-TITLE='Assimilation' # Name of document.
-DESCRIPTION='Life Goes On' # Description of document.
-WIDTH=9 # Width of page.
-HEIGHT=7 # Height of page.
-MARGINS=(0,0,0,0) # Page Margins of document. (left, right, top, bottom)
-BIND=.25 # Gap for where document is physically bound.
-
-### NOTE: Script assumes all images are the same filetype. ###
-TARGET='/mnt/c/Users/Alana/Desktop/git/Book-Editing-Tools' # Location of Scribus (.sla) file.
-SOURCE=TARGET+'/art/' # Location of image files. 
-FILETYPE='.png' # Filetype of images in SOURCE.
-PAGECOUNT=len(os.listdir(SOURCE)) # Number of images in SOURCE.
-FIRSTPAGE=1 # Starting number of images in source.
-
-### Add or remove variables here as needed. ###
-FILENAME=TARGET+DESCRIPTION.replace(' ', '')+'.sla' # Name of Scribus .sla file.
+REPLACE
 
 ############################
 ##    HELPER FUNCTIONS    ##
