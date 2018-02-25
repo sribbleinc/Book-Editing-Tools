@@ -10,8 +10,8 @@ MARGINS=(0,0,0,0) # Page Margins of document. (left, right, top, bottom)
 BIND=.25 # Gap for where document is physically bound.
 
 ### NOTE: Script assumes all images are the same filetype. ###
-TARGET=os.path.abspath('_target_') # Location of Scribus (.sla) file.
-SOURCE=os.path.abspath(TARGET+'/art/') # Location of image files. 
+TARGET=os.path.abspath('_target_')+os.sep # Location of Scribus (.sla) file.
+SOURCE=os.path.abspath(TARGET+'/art')+os.sep # Location of image files. 
 FILETYPE='.png' # Filetype of images in SOURCE.
 PAGECOUNT=len(os.listdir(SOURCE)) # Number of images in SOURCE.
 FIRSTPAGE=1 # Starting number of images in source.
