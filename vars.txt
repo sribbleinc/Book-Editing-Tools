@@ -15,6 +15,7 @@ SOURCE=os.path.abspath(TARGET+'/art')+os.sep # Location of image files.
 FILETYPE='.png' # Filetype of images in SOURCE.
 PAGECOUNT=len(os.listdir(SOURCE)) # Number of images in SOURCE.
 FIRSTPAGE=1 # Starting number of images in source.
+IMAGES=dict(zip(range(FIRSTPAGE, FIRSTPAGE+PAGECOUNT), os.listdir(SOURCE)))
 
 ### Add or remove variables here as needed. ###
 FILENAME=TARGET+DESCRIPTION.replace(' ', '')+'.sla' # Name of Scribus .sla file.

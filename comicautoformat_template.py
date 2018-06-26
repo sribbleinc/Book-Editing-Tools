@@ -11,18 +11,37 @@ REPLACE
 ############################
 ##    HELPER FUNCTIONS    ##
 ############################
-def format(number, pageCount):
+
+def getObjectName(p, index=0):
+    gotoPage(p)
+    return getPageItems()[index][0]
+
+def style(p):
     """
-    Takes page [number] and returns the corresponding filename.
-    Default: Images are sorted by sequential numbers with the same number of chars.
-        - Modify this method to insert images in a custom order.
+    Formats the image frame for a page.
     """
-    zeros=len(str(pageCount))-len(str(int(number)))
-    return "0"*zeros+str(number)+FILETYPE
+    if p%2 == 1: #image on right
+        frame=scribus.createImage(BIND, 0, WIDTH-BIND-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], str(p))
+    else: #even; image on left
+        frame=scribus.createImage(0, 0, WIDTH-BIND-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], str(p))
+    return frame
+
+def reorderPages():
+    """
+    Move pages to make room for new ones.
+    """
+    old_pagecount=pageCount()
+    gotoPage(FIRSTPAGE)
+    if FIRSTPAGE <= old_pagecount:
+        importPage(filename, (FIRSTPAGE, old_pagecount), 1, old_pagecount, 1)
+    else:
+        for i in range(PAGECOUNT):
+            newPage(-1)
 
 #######################
 ##    MAIN METHOD    ##
 #######################
+
 def main():
     """
     (1) Opens Scribus .sla file from path if it exists, creates a .sla file if it doesn't.
@@ -31,6 +50,7 @@ def main():
     filename=FILENAME
     try:
         openDoc(filename)
+        reorderPages()
     except:
         newDocument((WIDTH, HEIGHT), MARGINS, PORTRAIT, FIRSTPAGE, UNIT_INCHES, PAGE_2, 0, PAGECOUNT)
         saveDocAs(filename)
@@ -40,16 +60,18 @@ def main():
     try:
         for p in range(FIRSTPAGE, PAGECOUNT+FIRSTPAGE):
             gotoPage(p)
-            pid=str(p)
-            if p%2 == 1: #image on right
-                frame=scribus.createImage(BIND, 0, WIDTH-BIND-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], pid)
-            else: #even; image on left
-                frame=scribus.createImage(0, 0, WIDTH-BIND-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], pid)
-            loadImage(SOURCE+format(p, PAGECOUNT), pid)
+            if getPageItems(): #Is not blank page.
+                deleteObject(str(p))
+            frame=style(p)
+            loadImage(SOURCE+IMAGES[p], str(p))
         print("Saved: ", saveDoc())
+        for p in range(PAGECOUNT+FIRSTPAGE,PAGECOUNT()+1):
+            gotoPage(p)
+            setNewName(str(p), getObjectName(p))
+            moveObjectAbs(BIND*(p%2), 0, str(p))
     except:
         print "Problem with creating pages."
     finally: 
         closeDoc()
 
-main()
+# main()
