@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import os, os.path
 try:
     from scribus import *
@@ -12,9 +10,48 @@ REPLACE
 ##    HELPER FUNCTIONS    ##
 ############################
 
+def createDocument():
+    """
+    Create a new .ska file from SCRIPT ARGUMENTS above.
+    """
+    newDocument((WIDTH, HEIGHT), MARGINS, PORTRAIT, FIRSTPAGE, UNIT_INCHES, PAGE_2, 0, PAGECOUNT)
+    saveDocAs(FILENAME)
+    openDoc(FILENAME)
+    setDocType(FACINGPAGES, FIRSTPAGERIGHT)
+    setInfo(AUTHOR, TITLE, DESCRIPTION)
+
 def getObjectName(p, index=0):
+    """
+    Get object from page p.
+    """
     gotoPage(p)
     return getPageItems()[index][0]
+
+def insertImages():
+    """
+    Insert images into the document.
+    """
+    for p in range(pageCount(),PAGECOUNT+FIRSTPAGE-1,-1):
+        gotoPage(p)
+        setNewName(str(p), getObjectName(p))
+        moveObjectAbs(BIND*(p%2), 0, str(p))
+    for p in range(FIRSTPAGE, PAGECOUNT+FIRSTPAGE):
+        gotoPage(p)
+        frame=style(p)
+        loadImage(SOURCE+IMAGES[p], str(p))
+
+def reorderPages():
+    """
+    Insert pages into the document for desired order.
+    """
+    old_pagecount=pageCount()
+    gotoPage(FIRSTPAGE)
+    if FIRSTPAGE <= old_pagecount:
+        for i in range(PAGECOUNT):
+            newPage(FIRSTPAGE)
+    else:
+        for i in range(PAGECOUNT):
+            newPage(-1)
 
 def style(p):
     """
@@ -26,18 +63,6 @@ def style(p):
         frame=scribus.createImage(0, 0, WIDTH-BIND-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], str(p))
     return frame
 
-def reorderPages():
-    """
-    Move pages to make room for new ones.
-    """
-    old_pagecount=pageCount()
-    gotoPage(FIRSTPAGE)
-    if FIRSTPAGE <= old_pagecount:
-        importPage(filename, (FIRSTPAGE, old_pagecount), 1, old_pagecount, 1)
-    else:
-        for i in range(PAGECOUNT):
-            newPage(-1)
-
 #######################
 ##    MAIN METHOD    ##
 #######################
@@ -47,28 +72,14 @@ def main():
     (1) Opens Scribus .sla file from path if it exists, creates a .sla file if it doesn't.
     (2) Loads images into the pages.
     """
-    filename=FILENAME
-    try:
-        openDoc(filename)
+    if os.path.isfile(FILENAME): 
+        openDoc(FILENAME)
         reorderPages()
-    except:
-        newDocument((WIDTH, HEIGHT), MARGINS, PORTRAIT, FIRSTPAGE, UNIT_INCHES, PAGE_2, 0, PAGECOUNT)
-        saveDocAs(filename)
-        openDoc(filename)
-        setDocType(FACINGPAGES, FIRSTPAGERIGHT)
-        setInfo(AUTHOR, TITLE, DESCRIPTION)
+    else:
+        createDocument()
     try:
-        for p in range(FIRSTPAGE, PAGECOUNT+FIRSTPAGE):
-            gotoPage(p)
-            if getPageItems(): #Is not blank page.
-                deleteObject(str(p))
-            frame=style(p)
-            loadImage(SOURCE+IMAGES[p], str(p))
+        insertImages()
         print("Saved: ", saveDoc())
-        for p in range(PAGECOUNT+FIRSTPAGE,PAGECOUNT()+1):
-            gotoPage(p)
-            setNewName(str(p), getObjectName(p))
-            moveObjectAbs(BIND*(p%2), 0, str(p))
     except:
         print "Problem with creating pages."
     finally: 
