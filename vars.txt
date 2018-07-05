@@ -7,7 +7,7 @@ DESCRIPTION='Life Goes On' # Description of document.
 WIDTH=9 # Width of page.
 HEIGHT=7 # Height of page.
 MARGINS=(0,0,0,0) # Page Margins of document. (left, right, top, bottom)
-BIND=.25 # Gap for where document is physically bound.
+BIND=.15 # Gap for where document is physically bound.
 
 ### NOTE: Script assumes all images are the same filetype. ###
 TARGET=os.path.abspath('_target_')+os.sep # Location of Scribus (.sla) file.

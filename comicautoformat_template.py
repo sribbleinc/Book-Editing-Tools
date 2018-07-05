@@ -16,7 +16,6 @@ def createDocument():
     """
     newDocument((WIDTH, HEIGHT), MARGINS, PORTRAIT, FIRSTPAGE, UNIT_INCHES, PAGE_2, 0, PAGECOUNT)
     saveDocAs(FILENAME)
-    openDoc(FILENAME)
     setDocType(FACINGPAGES, FIRSTPAGERIGHT)
     setInfo(AUTHOR, TITLE, DESCRIPTION)
 
@@ -34,7 +33,7 @@ def insertImages():
     for p in range(pageCount(),PAGECOUNT+FIRSTPAGE-1,-1):
         gotoPage(p)
         setNewName(str(p), getObjectName(p))
-        moveObjectAbs(BIND*(p%2), 0, str(p))
+        moveObjectAbs(-BIND*-1**(p%2), 0, str(p))
     for p in range(FIRSTPAGE, PAGECOUNT+FIRSTPAGE):
         gotoPage(p)
         frame=style(p)
@@ -60,7 +59,7 @@ def style(p):
     if p%2 == 1: #image on right
         frame=scribus.createImage(BIND, 0, WIDTH-BIND-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], str(p))
     else: #even; image on left
-        frame=scribus.createImage(0, 0, WIDTH-BIND-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], str(p))
+        frame=scribus.createImage(-BIND, 0, WIDTH-BIND-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], str(p))
     return frame
 
 #######################
