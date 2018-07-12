@@ -44,7 +44,6 @@ def reorderPages():
     Insert pages into the document for desired order.
     """
     old_pagecount=pageCount()
-    gotoPage(FIRSTPAGE)
     if FIRSTPAGE <= old_pagecount:
         for i in range(PAGECOUNT):
             newPage(FIRSTPAGE)
