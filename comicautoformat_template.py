@@ -78,8 +78,9 @@ def main():
     try:
         insertImages()
         print("Saved: ", saveDoc())
-    except:
+    except Exception as e:
         print "Problem with creating pages."
+        print e
     finally: 
         closeDoc()
 

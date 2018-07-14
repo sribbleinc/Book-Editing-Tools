@@ -11,10 +11,18 @@ BIND=.15 # Gap for where document is physically bound.
 
 ### NOTE: Script assumes all images are the same filetype. ###
 TARGET=os.path.abspath('_target_')+os.sep # Location of Scribus (.sla) file.
-SOURCE=os.path.abspath(TARGET+'/chapter3')+os.sep # Location of image files. 
+SOURCE=os.path.abspath(TARGET+'/chapter5')+os.sep # Location of image files. 
 FILETYPE='.png' # Filetype of images in SOURCE.
 PAGECOUNT=len(os.listdir(SOURCE)) # Number of images in SOURCE.
-FIRSTPAGE=-1 # Starting number of images in source.
+FIRSTPAGE=-1 # Starting number of images in source. Append with -1.
+if FIRSTPAGE == -1:
+    if os.path.isfile(FILENAME): 
+        openDoc(FILENAME)
+        FIRSTPAGE = pageCount() + 1
+        closeDoc()
+    else:
+        FIRSTPAGE = 1
+
 IMAGES=dict(zip(range(FIRSTPAGE, FIRSTPAGE+PAGECOUNT), os.listdir(SOURCE)))
 
 ### Add or remove variables here as needed. ###
