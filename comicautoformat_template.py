@@ -33,7 +33,7 @@ def insertImages(IMAGES):
     for p in range(pageCount(),PAGECOUNT+FIRSTPAGE-1,-1):
         gotoPage(p)
         setNewName(str(p), getObjectName(p))
-        moveObjectAbs(-BIND*-1**(p%2), 0, str(p))
+        moveObjectAbs(-BIND*(-1)**(p%2), 0, str(p))
     for p in range(FIRSTPAGE, PAGECOUNT+FIRSTPAGE):
         gotoPage(p)
         frame=style(p)
