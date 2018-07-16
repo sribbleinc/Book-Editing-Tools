@@ -26,7 +26,7 @@ def getObjectName(p, index=0):
     gotoPage(p)
     return getPageItems()[index][0]
 
-def insertImages():
+def insertImages(IMAGES):
     """
     Insert images into the document.
     """
@@ -70,17 +70,22 @@ def main():
     (1) Opens Scribus .sla file from path if it exists, creates a .sla file if it doesn't.
     (2) Loads images into the pages.
     """
-    if os.path.isfile(FILENAME): 
+    global FIRSTPAGE
+    if os.path.isfile(FILENAME):
         openDoc(FILENAME)
+        if FIRSTPAGE == -1:
+            FIRSTPAGE = pageCount() + 1
         reorderPages()
     else:
         createDocument()
+        if FIRSTPAGE == -1:
+            FIRSTPAGE = 1
+    FILES=dict(zip(range(FIRSTPAGE, FIRSTPAGE+PAGECOUNT), os.listdir(SOURCE)))
     try:
-        insertImages()
+        insertImages(FILES)
         print("Saved: ", saveDoc())
-    except Exception as e:
+    except:
         print "Problem with creating pages."
-        print e
     finally: 
         closeDoc()
 
