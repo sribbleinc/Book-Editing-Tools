@@ -1,29 +1,27 @@
 ############################
 ##    SCRIPT ARGUMENTS    ##
 ############################
-AUTHOR='Alana Tran' # Creator(s) of document's contents.
-TITLE='Assimilation' # Name of document.
-DESCRIPTION='Life Goes On' # Description of document.
-WIDTH=9 # Width of page.
-HEIGHT=7 # Height of page.
-MARGINS=(0,0,0,0) # Page Margins of document. (left, right, top, bottom)
+AUTHOR='author' # Creator(s) of document's contents.
+TITLE='title' # Name of document.
+DESCRIPTION='description' # Description of document.
+
+UNIT=UNIT_INCHES # options: UNIT_INCHES, UNIT_MILLIMETERS, UNIT_PICAS, UNIT_POINTS.
+WIDTH=8.5 # Width of page.
+HEIGHT=11 # Height of page.
+MARGINS=(.5,.5,.5,.5) # Page margins of document. (left, right, top, bottom)
+ORIENTATION=PORTRAIT # options: PORTRAIT, LANDSCAPE
 BIND=.15 # Gap for where document is physically bound.
 
-### NOTE: Script assumes all images are the same filetype. ###
-TARGET=os.path.abspath('_target_')+os.sep # Location of Scribus (.sla) file.
-SOURCE=os.path.abspath(TARGET+'/chapter5')+os.sep # Location of image files. 
-FILETYPE='.png' # Filetype of images in SOURCE.
-PAGECOUNT=len(os.listdir(SOURCE)) # Number of images in SOURCE.
-FIRSTPAGE=-1 # Starting number of images in source. Append with -1.
-if FIRSTPAGE == -1:
-    if os.path.isfile(FILENAME): 
-        openDoc(FILENAME)
-        FIRSTPAGE = pageCount() + 1
-        closeDoc()
-    else:
-        FIRSTPAGE = 1
+FIRSTPAGE=1 # Starting number of images in source. Append with -1.
+PAGETYPE=PAGE_2 # options: PAGE_1 (single page), PAGE_2 (double-sided), PAGE_3 (3-fold), PAGE_4 (4-fold).
+POSITION=0 # 0-indexed position of first page in the document.
 
-IMAGES=dict(zip(range(FIRSTPAGE, FIRSTPAGE+PAGECOUNT), os.listdir(SOURCE)))
+FACING=FACINGPAGES # options: FACINGPAGES, NOFACINGPAGES
+SIDE=FIRSTPAGELEFT # options: FIRSTPAGELEFT, FIRSTPAGERIGHT
+
+TARGET=os.path.abspath('_target_')+os.sep # Location of Scribus (.sla) file.
+SOURCE=os.path.abspath(TARGET+'/art')+os.sep # Location of image files.
+PAGECOUNT=len(os.listdir(SOURCE)) # Number of images in SOURCE.
 
 ### Add or remove variables here as needed. ###
 FILENAME=TARGET+DESCRIPTION.replace(' ', '')+'.sla' # Name of Scribus .sla file.

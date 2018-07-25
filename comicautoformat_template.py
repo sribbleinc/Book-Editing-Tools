@@ -14,10 +14,10 @@ def createDocument():
     """
     Create a new .ska file from SCRIPT ARGUMENTS above.
     """
-    newDocument((WIDTH, HEIGHT), MARGINS, PORTRAIT, FIRSTPAGE, UNIT_INCHES, PAGE_2, 0, PAGECOUNT)
-    saveDocAs(FILENAME)
-    setDocType(FACINGPAGES, FIRSTPAGERIGHT)
+    newDocument((WIDTH, HEIGHT), MARGINS, ORIENTATION, FIRSTPAGE, UNIT_INCHES, PAGETYPE, POSITION, PAGECOUNT)
+    setDocType(FACING, SIDE)
     setInfo(AUTHOR, TITLE, DESCRIPTION)
+    saveDocAs(FILENAME)
 
 def getObjectName(p, index=0):
     """
@@ -61,15 +61,7 @@ def style(p):
         frame=scribus.createImage(-BIND, 0, WIDTH-BIND-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], str(p))
     return frame
 
-#######################
-##    MAIN METHOD    ##
-#######################
-
-def main():
-    """
-    (1) Opens Scribus .sla file from path if it exists, creates a .sla file if it doesn't.
-    (2) Loads images into the pages.
-    """
+def format():
     global FIRSTPAGE
     if os.path.isfile(FILENAME):
         openDoc(FILENAME)
@@ -88,5 +80,16 @@ def main():
         print "Problem with creating pages."
     finally: 
         closeDoc()
+
+#######################
+##    MAIN METHOD    ##
+#######################
+
+def main():
+    """
+    (1) Opens Scribus .sla file from path if it exists, creates a .sla file if it doesn't.
+    (2) Loads images into the pages.
+    """
+    format()
 
 # main()
