@@ -15,13 +15,13 @@ BIND=.15 # Gap for where document is physically bound.
 FIRSTPAGE=1 # Starting number of images in source. Append with -1.
 PAGETYPE=PAGE_2 # options: PAGE_1 (single page), PAGE_2 (double-sided), PAGE_3 (3-fold), PAGE_4 (4-fold).
 POSITION=0 # 0-indexed position of first page in the document.
-
 FACING=FACINGPAGES # options: FACINGPAGES, NOFACINGPAGES
 SIDE=FIRSTPAGELEFT # options: FIRSTPAGELEFT, FIRSTPAGERIGHT
 
 TARGET=os.path.abspath('_target_')+os.sep # Location of Scribus (.sla) file.
-SOURCE=os.path.abspath(TARGET+'/art')+os.sep # Location of image files.
-PAGECOUNT=len(os.listdir(SOURCE)) # Number of images in SOURCE.
+SOURCE=os.path.abspath(TARGET+'/art')+os.sep # Location of files.
+FILES=os.listdir(SOURCE) # Files in SOURCE.
+PAGECOUNT=len(FILES) # Number of files in SOURCE.
 
 ### Add or remove variables here as needed. ###
 FILENAME=TARGET+DESCRIPTION.replace(' ', '')+'.sla' # Name of Scribus .sla file.

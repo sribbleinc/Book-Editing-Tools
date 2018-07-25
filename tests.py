@@ -1,19 +1,29 @@
-import os, os.path
+from comicautoformat_template import *
 try:
     from scribus import *
 except ImportError:
     print("This script can only be run inside Scribus.")
 
 FILENAME="test.sla"
+UNIT=UNIT_INCHES
+WIDTH=8.5
+HEIGHT=11
+MARGINS=(.5,.5,.5,.5)
+ORIENTATION=PORTRAIT
+BIND=.15
+
+FIRSTPAGE=1
+PAGETYPE=PAGE_2
+POSITION=0
+FACING=FACINGPAGES
+SIDE=FIRSTPAGELEFT
 
 def makeTextFrame(p):
-    gotoPage(p)
-    createText(4, 5.5, 2, 2, str(p))
-    setText(str(p), str(p))
+    return createFrame(p, scribus.createText)
 
 def create_file_test():
     print "running create_file_test..."
-    newDocument((8, 11), (.5,.5,.5,.5), PORTRAIT, 1, UNIT_INCHES, PAGE_2, 0, 5)
+    newDocument((WIDTH, HEIGHT), MARGINS, ORIENTATION, FIRSTPAGE, UNIT_INCHES, PAGETYPE, POSITION, PAGECOUNT)
     saveDocAs(FILENAME)
     openDoc(FILENAME)
     closeDoc()
