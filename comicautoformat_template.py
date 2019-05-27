@@ -38,6 +38,7 @@ def insertImages():
         gotoPage(p)
         frame=style(p)
         loadImage(SOURCE+IMAGES[p], str(p))
+        setScaleImageToFrame(true, true)
 
 def reorderPages():
     """
@@ -57,9 +58,9 @@ def style(p):
     Formats the image frame for a page.
     """
     if p%2 == 1: #image on right
-        frame=scribus.createImage(BIND, 0, WIDTH-BIND-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], str(p))
+        frame=scribus.createImage(MARGINS[0]+BIND, MARGINS[2], WIDTH-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], str(p))
     else: #even; image on left
-        frame=scribus.createImage(-BIND, 0, WIDTH-BIND-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], str(p))
+        frame=scribus.createImage(MARGINS[0]-BIND, MARGINS[2], WIDTH-MARGINS[0]-MARGINS[1], HEIGHT-MARGINS[2]-MARGINS[3], str(p))
     return frame
 
 #######################
@@ -84,4 +85,4 @@ def main():
     finally: 
         closeDoc()
 
-# main()
+main()
